@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 按钮颜色 -->
+    <drawable name="btn_normal">#D6FFFFFF</drawable>
+    <drawable name="btn_pressed">#FF1700B7</drawable>
+
+</resources>

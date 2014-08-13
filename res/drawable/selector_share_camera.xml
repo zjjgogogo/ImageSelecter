@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<!-- 没有焦点时的背景颜色 -->  
+	<item android:state_pressed="false"  
+	android:drawable="@drawable/share_camera_normal" />  
+	
+	
+	<!--触摸模式下单击时的背景颜色  -->  
+	<item  android:state_pressed="true"  
+	android:drawable="@drawable/share_camera_pressed" />  
+	
+	 
+	
+</selector>
