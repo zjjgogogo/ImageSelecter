@@ -1,5 +1,7 @@
 package com.myzaker.imagescan.bean;
 
+import android.text.TextUtils;
+
 /**
  * 
  * the pic info for each pic, which is in each folder
@@ -14,7 +16,7 @@ public class ImageBean {
 
 	private String imagePath;
 
-	private String thumbailPath;
+	private String thumbnailPath;
 
 	private boolean isSelect = false;
 
@@ -27,6 +29,10 @@ public class ImageBean {
 	}
 
 	public String getImagePath() {
+
+		if (!TextUtils.isEmpty(getThumbnailPath())) {
+			return getThumbnailPath();
+		}
 		return imagePath;
 	}
 
@@ -34,12 +40,12 @@ public class ImageBean {
 		this.imagePath = imagePath;
 	}
 
-	public String getThumbailPath() {
-		return thumbailPath;
+	public String getThumbnailPath() {
+		return thumbnailPath;
 	}
 
-	public void setThumbailPath(String thumbailPath) {
-		this.thumbailPath = thumbailPath;
+	public void setThumbnailPath(String thumbailPath) {
+		this.thumbnailPath = thumbailPath;
 	}
 
 	public boolean isSelect() {

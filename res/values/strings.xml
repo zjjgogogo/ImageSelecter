@@ -5,9 +5,11 @@
     <string name="headerbar_title">Picture</string>
     <string name="headerbar_finish">Finish</string>
     <string name="pic_select_num_error">Cannot select more than <xliff:g id="number">%d</xliff:g> pics.</string>
+    <string name="pic_folder_num"><xliff:g id="number">%d</xliff:g> pics</string>
     <string name="pic_selected_num">Has selected <xliff:g id="number">%d</xliff:g>pics / can select <xliff:g id="max_number">%d</xliff:g> more.</string>
     <string name="no_extern_storge">not any extern storge</string>
     <string name="loading">loading&#8230;</string>
     <string name="all_images_str">All Pics</string>
-
+	<string name="no_any_pic">Not found any pics</string>
+	<string name="cannot_show_camera">Cannot open camera</string>
 </resources>

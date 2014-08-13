@@ -23,10 +23,11 @@ import com.myzaker.imagescan.bean.ImageFolderBean;
  * @author James。
  */
 public class GroupListAdapter extends BaseAdapter {
+
 	final String TAG = "GroupListAdapter";
 	protected List<ImageFolderBean> list;
 	protected LayoutInflater mInflater;
-
+	protected Context context;
 	private int select_index = 0;
 
 	@Override
@@ -50,6 +51,7 @@ public class GroupListAdapter extends BaseAdapter {
 
 	public GroupListAdapter(Context context, List<ImageFolderBean> list) {
 		this.list = list;
+		this.context = context;
 		mInflater = LayoutInflater.from(context);
 	}
 
@@ -83,11 +85,11 @@ public class GroupListAdapter extends BaseAdapter {
 		}
 
 		viewHolder.mTextViewTitle.setText(mImageBean.getFolderName());
-		viewHolder.mTextViewCounts.setText(Integer.toString(mImageBean
-				.getImageCounts()) + "张");
+		viewHolder.mTextViewCounts.setText(context.getString(
+				R.string.pic_folder_num, mImageBean.getImageCounts()));
 		viewHolder.mImageView.setTag(path);
 
-		UniversalImageLoadTool.disPlay("file://" + path, viewHolder.mImageView,
+		UniversalImageLoadTool.displayImage("file://" + path, viewHolder.mImageView,
 				R.drawable.friends_sends_pictures_no);
 
 		return convertView;

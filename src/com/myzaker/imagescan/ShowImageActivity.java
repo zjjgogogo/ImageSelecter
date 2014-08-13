@@ -47,7 +47,12 @@ public class ShowImageActivity extends Activity {
 
 	public static SkinUtil mSkinUtil;
 
+	public static final String KEY_MAX_IMAGE_SELECT = "KEY_MAX_IMAGE_SELECT";
+
 	public final static int REQUEST_CODE_PREVIEW = 1122;
+	public final static int RESULT_CODE_PREVIEW_BACK = 1123;
+	public final static int RESULT_CODE_PREVIEW_FINISH = 1124;
+	
 	public final static int REQUEST_CODE_CAMERA = 1133;
 
 	ImageGridAdpater mImageGridAdpater;
@@ -70,10 +75,9 @@ public class ShowImageActivity extends Activity {
 
 	private GroupListAdapter mGroupListAdapter;
 
-	// 最多可以设置多少张图片
 	public static int imagesMaxSize = 6;
 
-	public static int folder_index = 0;
+	int folder_index = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,9 @@ public class ShowImageActivity extends Activity {
 		if (mSkinUtil == null) {
 			mSkinUtil = new SkinUtil(getIntent());
 		}
+
+		imagesMaxSize = getIntent().getIntExtra(KEY_MAX_IMAGE_SELECT,
+				imagesMaxSize);
 
 		TempDataController.clean();
 
@@ -214,6 +221,7 @@ public class ShowImageActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+
 				folder_index = position;
 
 				List<ImageBean> imageDataList = getFolderList();
@@ -381,15 +389,12 @@ public class ShowImageActivity extends Activity {
 			if (mInteger != null) {
 				int position = mInteger;
 
-				ImageBean mImageBean = (ImageBean) mImageGridAdpater
-						.getItem(position);
-
 				Intent intent = new Intent(ShowImageActivity.this,
 						PreviewActivity.class);
 
 				Bundle bundle = new Bundle();
-				bundle.putString("imagePath", mImageBean.getImagePath());
-				bundle.putBoolean("isSelected", mImageBean.isSelect());
+				bundle.putInt(PreviewActivity.KEY_PIC_INDEX, position);
+				bundle.putInt(PreviewActivity.KEY_FOLD_INDEX, folder_index);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, REQUEST_CODE_PREVIEW);
 
@@ -448,6 +453,13 @@ public class ShowImageActivity extends Activity {
 
 			ArrayList<ImageBean> mAllArrayList = TempDataController
 					.getAllImageDatas();
+
+			if (mAllArrayList.isEmpty()) {
+				Toast.makeText(ShowImageActivity.this, R.string.no_any_pic,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			mImageGridAdpater = new ImageGridAdpater(ShowImageActivity.this,
 					mAllArrayList);
 			mImageGridAdpater
@@ -476,13 +488,23 @@ public class ShowImageActivity extends Activity {
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// if (requestCode == CAMERA_REQUEST_CODE) {
-		// // 这是修复打开相机之后不照相的问题
-		// if (resultCode == Activity.RESULT_OK) {
+		if (requestCode == REQUEST_CODE_CAMERA) {
+			// 这是修复打开相机之后不照相的问题
+			if (resultCode == Activity.RESULT_OK) {
+				Toast.makeText(this, "Camera back", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		if (requestCode == REQUEST_CODE_PREVIEW) {
+			if (mImageGridAdpater != null) {
+				mImageGridAdpater.notifyDataSetChanged();
+			}
+			updateSelectNumber();
+		}
+
 		// Log.i("1111", "我被调用了" + requestCode + ", " + requestCode);
 		// SharedPreferences sp = getSharedPreferences("ppp", 0);
 		// Log.i("2222222", "文件路径：" + sp.getString("m", ""));

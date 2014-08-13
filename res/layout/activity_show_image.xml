@@ -35,7 +35,9 @@
             android:gravity="left|center_vertical"
             android:maxLength="8"
             android:text="@string/all_images_str"
-            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -57,7 +59,7 @@
             android:background="@android:color/transparent"
             android:text="@string/headerbar_finish"
             android:textColor="@drawable/botton_text2_color"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <GridView

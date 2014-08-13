@@ -20,14 +20,14 @@
 
     <ImageView
         android:id="@+id/preview"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignBottom="@id/child_image"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="8dp"
-        android:background="@drawable/magnifier"
         android:contentDescription="@string/app_name"
-        android:padding="10dp" />
+        android:paddingRight="7dp"
+        android:paddingBottom="7dp"
+        android:src="@drawable/magnifier" />
 
 </RelativeLayout>

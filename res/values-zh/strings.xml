@@ -5,9 +5,11 @@
     <string name="headerbar_title">图片</string>
     <string name="headerbar_finish">完成</string>
     <string name="pic_select_num_error">图片选择不可超过<xliff:g id="number">%d</xliff:g>张。</string>
+    <string name="pic_folder_num"><xliff:g id="number">%d</xliff:g> 张</string>
  	<string name="pic_selected_num">已选<xliff:g id="number">%d</xliff:g>张/还可选<xliff:g id="max_number">%d</xliff:g>张图片</string>
     <string name="no_extern_storge">暂无外部存储</string>
     <string name="loading">正在加载中&#8230;</string>
     <string name="all_images_str">所有图片</string>
-    
+    <string name="no_any_pic">没找到任何图片</string>
+    <string name="cannot_show_camera">无法打开摄像头</string>
 </resources>

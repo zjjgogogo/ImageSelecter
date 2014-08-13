@@ -12,17 +12,20 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
 
 /**
- * @author oywf
  * 
+ * Camera util
+ * 
+ * @author James
  */
 public class CameraUtil {
+
 	private Activity activity;
-	// 当前照片的路径
 	private String mCurrentPhotoPath;
 
 	public CameraUtil(Activity activity) {
@@ -30,11 +33,6 @@ public class CameraUtil {
 		this.activity = activity;
 	}
 
-	/**
-	 * 获取SD卡路径，创建文件夹
-	 * 
-	 * @return file
-	 */
 	private File getAlbumDir() {
 		File storageDir = null;
 		if (Environment.MEDIA_MOUNTED.equals(Environment
@@ -59,20 +57,10 @@ public class CameraUtil {
 		return storageDir;
 	}
 
-	/**
-	 * 存放附件路径
-	 * 
-	 * @return
-	 */
 	private String getAlbumName() {
 		return activity.getString(R.string.app_name);
 	}
 
-	/**
-	 * 拍照
-	 * 
-	 * @param activity
-	 */
 	public void cameraInit(Activity activity) {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -100,19 +88,19 @@ public class CameraUtil {
 			mCurrentPhotoPath = null;
 		}
 
-		activity.startActivityForResult(takePictureIntent,
-				ShowImageActivity.REQUEST_CODE_CAMERA);
+		try {
+			activity.startActivityForResult(takePictureIntent,
+					ShowImageActivity.REQUEST_CODE_CAMERA);
+		} catch (Exception e) {
+			Toast.makeText(activity, R.string.cannot_show_camera,
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public String getmCurrentPhotoPath() {
 		return mCurrentPhotoPath;
 	}
 
-	/**
-	 * 根据路径删除图片
-	 * 
-	 * @param path
-	 */
 	public static void deleteTempFile(String path) {
 		File file = new File(path);
 		if (file.exists()) {

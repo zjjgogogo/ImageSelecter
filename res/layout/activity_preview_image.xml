@@ -12,6 +12,7 @@
         android:background="#00B4FD" >
 
         <TextView
+            android:id="@+id/header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -19,7 +20,6 @@
             android:background="@android:color/transparent"
             android:text="@string/headerbar_title"
             android:textColor="#FFFFFF"
-            android:id="@+id/header_title"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -31,7 +31,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/title_padding"
             android:background="@android:color/transparent"
-            android:text="" />
+            android:text="@string/headerbar_finish"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -40,21 +41,10 @@
         android:layout_height="match_parent"
         android:layout_below="@id/header" >
 
-        <ImageView
-            android:id="@+id/image_show_item"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/mask"
-            android:background="@drawable/image_mask" >
-        </View>
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/show_count"
@@ -65,15 +55,6 @@
             android:layout_marginBottom="20dp"
             android:textColor="#BFBFBF"
             android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/image_show_choose"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_above="@+id/show_count"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp"
-            android:contentDescription="@string/app_name" />
     </RelativeLayout>
 
 </RelativeLayout>

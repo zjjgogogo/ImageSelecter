@@ -23,8 +23,8 @@ public class BitmapUtil {
 			Matrix m = new Matrix();
 			int width = bitmap.getWidth();
 			int height = bitmap.getHeight();
-			m.setRotate(degree); // 旋转angle度
-			bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, m, true);// 从新生成图片
+			m.setRotate(degree); 
+			bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, m, true);
 		}
 		return bitmap;
 	}

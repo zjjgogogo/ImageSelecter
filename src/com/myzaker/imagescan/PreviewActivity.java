@@ -1,12 +1,14 @@
 package com.myzaker.imagescan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,24 +16,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.myzaker.imagescan.util.BitmapUtil;
+import com.myzaker.imagescan.adapter.ImagePageAdapter;
+import com.myzaker.imagescan.bean.ImageBean;
+import com.myzaker.imagescan.bean.ImageFolderBean;
+import com.myzaker.imagescan.bean.TempDataController;
 
 public class PreviewActivity extends Activity {
 
-	// 预览的图片
-	private ImageView image_show_item;
-	// 选择的图片
-	private ImageView image_show_choose;
-	// 显示张数
+	final String TAG = "PreviewActivity";
+
+	public static final String KEY_PIC_INDEX = "KEY_PIC_INDEX";
+	public static final String KEY_FOLD_INDEX = "KEY_FOLD_INDEX";
+
 	private TextView show_count;
 
 	private Button btn_finish;
 
-	// 点击之后传递过来的值
-	private String imagePath;
-	// 传递过来已经选择了多少张图片了
-	private int imgSize;
-	private boolean isSelected;
+	private ViewPager mViewPager;
+
+	private int currentIndex;
+
+	ImagePageAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,53 +44,107 @@ public class PreviewActivity extends Activity {
 
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
-		imagePath = bundle.getString("imagePath");
-		imgSize = bundle.getInt("imgSize");
-		isSelected = bundle.getBoolean("isSelected");
+
+		currentIndex = bundle.getInt(KEY_PIC_INDEX);
+
+		int folderCurrentIndex = bundle.getInt(KEY_FOLD_INDEX);
 
 		setContentView(R.layout.activity_preview_image);
 
-		image_show_item = (ImageView) findViewById(R.id.image_show_item);
-		image_show_choose = (ImageView) findViewById(R.id.image_show_choose);
 		show_count = (TextView) findViewById(R.id.show_count);
 		btn_finish = (Button) findViewById(R.id.header_finish);
+		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
+		List<ImageBean> images;
+		Log.e(TAG, "folderCurrentIndex : " + folderCurrentIndex);
+		if (folderCurrentIndex != 0) {
+			ImageFolderBean mImageFolderBean = TempDataController
+					.getFolderDatas().get(folderCurrentIndex - 1);
+			images = TempDataController.getTotalDatas().get(
+					mImageFolderBean.getFolderName());
+			((TextView) findViewById(R.id.header_title))
+					.setText(mImageFolderBean.getFolderName());
+		} else {
+			((TextView) findViewById(R.id.header_title))
+					.setText(R.string.all_images_str);
+			images = TempDataController.getAllImageDatas();
+		}
+		mAdapter = new ImagePageAdapter(this);
+		mAdapter.onSelectBtnClickListener(mSelectBtnClickListener);
+		mAdapter.setPageDatas(images);
+		mViewPager.setAdapter(mAdapter);
+		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
+		mViewPager.setCurrentItem(currentIndex);
 
 		initViewSkin();
-
-		Bitmap mBitmap = BitmapUtil.getBitmap(this, imagePath);
-		image_show_item.setImageBitmap(mBitmap);
-
 		updateShowCount();
+	}
 
-		image_show_choose.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (imgSize <= ShowImageActivity.imagesMaxSize) {
-					if (isSelected) {
-						isSelected = false;
-						imgSize--;
-						updateShowCount();
+	OnClickListener mSelectBtnClickListener = new OnClickListener() {
 
-					} else {
-						if (imgSize == ShowImageActivity.imagesMaxSize) {
-							showToastTip(getResources().getString(
-									R.string.pic_select_num_error,
-									ShowImageActivity.imagesMaxSize));
+		@Override
+		public void onClick(View v) {
 
-							return;
-						}
-						isSelected = true;
-						imgSize++;
-						updateShowCount();
+			ImageBean mImageBean = mAdapter.getItem(currentIndex);
 
+			if (mImageBean == null) {
+				return;
+			}
+
+			ImageView mIcon = null;
+			if (v instanceof ImageView) {
+				mIcon = (ImageView) v;
+			}
+
+			if (mImageBean.isSelect()) {
+				if (mIcon != null) {
+					mIcon.setImageResource(ShowImageActivity.mSkinUtil.previewUnselectRes);
+				}
+				mImageBean.setSelect(false);
+				TempDataController.removeSelectImage(mImageBean);
+			} else {
+				if (TempDataController.getSelectImageDatas().size() < ShowImageActivity.imagesMaxSize) {
+
+					mImageBean.setSelect(true);
+					TempDataController.addSelectImage(mImageBean);
+
+					if (mIcon != null) {
+						mIcon.setImageResource(ShowImageActivity.mSkinUtil.previewSelectRes);
 					}
+
 				} else {
-					showToastTip(getResources().getString(
-							R.string.pic_select_num_error,
+					showToastTip(getString(R.string.pic_select_num_error,
 							ShowImageActivity.imagesMaxSize));
 				}
 			}
-		});
+
+			updateShowCount();
+
+		}
+	};
+
+	OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+
+		@Override
+		public void onPageSelected(int arg0) {
+			currentIndex = arg0;
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+
+		}
+	};
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
 	}
 
 	protected void initViewSkin() {
@@ -98,9 +157,6 @@ public class PreviewActivity extends Activity {
 
 		((TextView) findViewById(R.id.header_title))
 				.setTextColor(ShowImageActivity.mSkinUtil.headerBarTextColor);
-
-		findViewById(R.id.mask).setBackgroundResource(
-				ShowImageActivity.mSkinUtil.previewMaskRes);
 
 		show_count
 				.setTextColor(ShowImageActivity.mSkinUtil.previewBottomTextColor);
@@ -115,30 +171,14 @@ public class PreviewActivity extends Activity {
 
 	protected void updateShowCount() {
 
-		show_count.setText(getResources().getString(R.string.pic_selected_num,
-				imgSize, (ShowImageActivity.imagesMaxSize - imgSize)));
-		if (isSelected) {
-			image_show_choose
-					.setImageResource(ShowImageActivity.mSkinUtil.previewSelectRes);
-		} else {
-			image_show_choose
-					.setImageResource(ShowImageActivity.mSkinUtil.previewUnselectRes);
-		}
-	}
+		ArrayList<ImageBean> mSelectList = TempDataController
+				.getSelectImageDatas();
 
-	@Override
-	public void onBackPressed() {
-		// 将值存入
-		SharedPreferences ps = getSharedPreferences("yulanreturn",
-				Context.MODE_PRIVATE);
-		Editor editor = ps.edit();
-		// 当前选取数据的列表信息
-		editor.putInt("imgSize", imgSize);
-		editor.putString("yulanpath", imagePath);
-		editor.putBoolean("isSelect", isSelected);
-		editor.commit();
-		setResult(103);
-		super.onBackPressed();
+		final int selectNum = mSelectList.size();
+
+		show_count.setText(getResources().getString(R.string.pic_selected_num,
+				selectNum, (ShowImageActivity.imagesMaxSize - selectNum)));
+
 	}
 
 }

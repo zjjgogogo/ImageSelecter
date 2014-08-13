@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -27,13 +28,14 @@ public class UniversalImageLoadTool {
 		return imageLoader.isInited();
 	}
 
-	public static void disPlay(String uri, ImageView imageAware, int default_pic) {
+	public static void displayImage(String uri, ImageView imageView,
+			int default_pic) {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showStubImage(default_pic).showImageForEmptyUri(default_pic)
 				.showImageOnFail(default_pic).cacheInMemory(true)
 				.cacheOnDisc(true).bitmapConfig(Bitmap.Config.RGB_565).build();
 
-		imageLoader.displayImage(uri, imageAware, options);
+		imageLoader.displayImage(uri, imageView, options);
 	}
 
 	public static void checkImageLoaderConfiguration(Context context) {
@@ -47,20 +49,15 @@ public class UniversalImageLoadTool {
 					context)
 					.threadPriority(Thread.NORM_PRIORITY)
 					.denyCacheImageMultipleSizesInMemory()
-					.memoryCacheExtraOptions(218, 440)
-					// max width, max
-					// height
-					.discCacheExtraOptions(218, 440, CompressFormat.JPEG, 100,
-							null)
+					.memoryCacheExtraOptions(480, 800)
 					// Can slow ImageLoader, use it carefully
-					.memoryCacheSize(6 * 1024 * 1024)
 					.discCacheFileNameGenerator(new Md5FileNameGenerator())
 					.discCache(
 							new LimitedAgeDiscCache(StorageUtils
 									.getCacheDirectory(context),
 									new Md5FileNameGenerator(),
 									discCacheLimitTime))
-					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
+					.tasksProcessingOrder(QueueProcessingType.FIFO).build();
 			// Initialize ImageLoader with configuration.
 			ImageLoader.getInstance().init(config);
 		}
@@ -75,23 +72,14 @@ public class UniversalImageLoadTool {
 		imageLoader.resume();
 	}
 
-	/**
-	 * 暂停加载
-	 */
 	public static void pause() {
 		imageLoader.pause();
 	}
 
-	/**
-	 * 停止加载
-	 */
 	public static void stop() {
 		imageLoader.stop();
 	}
 
-	/**
-	 * 销毁加载
-	 */
 	public static void destroy() {
 		imageLoader.destroy();
 	}

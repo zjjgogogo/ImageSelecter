@@ -20,8 +20,7 @@ public class BitmapUtil {
 				.getDisplayMetrics();
 
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		// Calculate inSampleSize(这里应该是传入屏幕的宽高)
+		options.inJustDecodeBounds = true; 
 		options.inSampleSize = calculateInSampleSize(options,
 				mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
 		options.inJustDecodeBounds = false;
@@ -41,8 +40,7 @@ public class BitmapUtil {
 			int reqWidth, int reqHeight) {
 		final int height = options.outHeight;
 		final int width = options.outWidth;
-		int inSampleSize = 1;
-		// 图片大于屏幕宽高 进行压缩
+		int inSampleSize = 1; 
 		if (height > reqHeight || width > reqWidth) {
 
 			final int heightRatio = Math.round((float) height
