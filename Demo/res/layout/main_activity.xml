@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/open_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start" />
+
+        <Button
+            android:id="@+id/open_photo_night"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start_night" />
+
+        <Button
+            android:id="@+id/remove_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove All" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/grid_padding"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:padding="@dimen/grid_padding"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/grid_padding" >
+    </GridView>
+
+</LinearLayout>
