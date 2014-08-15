@@ -39,7 +39,15 @@
         android:numColumns="3"
         android:padding="@dimen/grid_padding"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/grid_padding" >
+        android:verticalSpacing="@dimen/grid_padding"
+        android:visibility="gone" >
     </GridView>
+
+    <com.test.imagedemo.PicsShowView
+        android:id="@+id/list"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" />
 
 </LinearLayout>

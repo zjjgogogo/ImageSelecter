@@ -32,17 +32,17 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_padding"
             android:background="@android:color/transparent"
+            android:ellipsize="end"
             android:gravity="left|center_vertical"
             android:maxLength="8"
-            android:ellipsize="end"
-            android:text="@string/all_images_str" 
+            android:text="@string/all_images_str"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/gallery_triangle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/header_gallery"
             android:layout_alignBottom="@+id/header_gallery"
             android:layout_toRightOf="@id/header_gallery"
@@ -57,6 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/title_padding"
             android:background="@android:color/transparent"
+            android:gravity="right|center_vertical"
             android:text="@string/headerbar_finish"
             android:textColor="@drawable/botton_finish_color"
             android:textSize="18sp" />
@@ -73,7 +74,8 @@
         android:horizontalSpacing="@dimen/grid_padding"
         android:listSelector="@android:color/transparent"
         android:numColumns="3"
-        android:padding="@dimen/grid_padding"
+        android:paddingLeft="@dimen/grid_padding"
+        android:paddingRight="@dimen/grid_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_padding" >
     </GridView>
@@ -97,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
+            android:cacheColorHint="@android:color/transparent"
             android:paddingBottom="10dp"
             android:visibility="invisible" >
         </ListView>

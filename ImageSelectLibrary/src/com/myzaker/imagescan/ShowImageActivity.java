@@ -236,7 +236,7 @@ public class ShowImageActivity extends Activity {
 		};
 
 		mFolderListLayout.setOnClickListener(mCloseClick);
-		
+
 		findViewById(R.id.header).setOnClickListener(mCloseClick);
 		findViewById(R.id.footerbar).setOnClickListener(mCloseClick);
 
@@ -296,7 +296,7 @@ public class ShowImageActivity extends Activity {
 			mGroupListAdapter.notifyDataSetChanged();
 		}
 	}
-
+	
 	protected void showFolderList() {
 
 		if (mFolderList != null && mFolderList.getVisibility() == View.VISIBLE) {
@@ -402,11 +402,13 @@ public class ShowImageActivity extends Activity {
 
 		int imgSize = TempDataController.getSelectImageDatas().size();
 
-		SpannableStringBuilder spn = new SpannableStringBuilder(imgSize + "/"
-				+ imagesMaxSize);
+		String imageSizeStr = String.valueOf(imgSize);
+
+		SpannableStringBuilder spn = new SpannableStringBuilder(imageSizeStr
+				+ "/" + imagesMaxSize);
 		spn.setSpan(
 				new ForegroundColorSpan(mSkinUtil.selectPicBottomTextColor2),
-				0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				0, imageSizeStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		show_count_images.setText(spn);
 	}

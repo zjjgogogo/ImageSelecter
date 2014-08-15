@@ -10,6 +10,8 @@
     <string name="no_extern_storge">not any extern storge</string>
     <string name="loading">loading&#8230;</string>
     <string name="all_images_str">All Pics</string>
+    <string name="preview_image_str">Preview</string>
+    <string name="preview_delete_btn">Delete</string>
 	<string name="no_any_pic">Not found any pics</string>
 	<string name="cannot_show_camera">Cannot open camera</string>
 </resources>

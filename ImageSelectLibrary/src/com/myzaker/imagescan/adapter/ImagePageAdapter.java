@@ -24,13 +24,23 @@ public class ImagePageAdapter extends PagerAdapter {
 	LayoutInflater mInflater;
 	OnClickListener mClickListener;
 
+	boolean isPreView = false;
+
 	public ImagePageAdapter(Context context) {
 		this.context = context;
 		mInflater = LayoutInflater.from(context);
 	}
 
+	public void setPreView(boolean value) {
+		isPreView = value;
+	}
+
 	public void setPageDatas(List<ImageBean> datas) {
 		this.datas = datas;
+	}
+
+	public List<ImageBean> getDatas() {
+		return datas;
 	}
 
 	@Override
@@ -67,7 +77,7 @@ public class ImagePageAdapter extends PagerAdapter {
 			mHolder.image = (ImageView) view.findViewById(R.id.image_show_item);
 			mHolder.selectBtn = (ImageView) view
 					.findViewById(R.id.image_show_choose);
-			mHolder.mask = (View)view.findViewById(R.id.mask);
+			mHolder.mask = (View) view.findViewById(R.id.mask);
 			view.setTag(mHolder);
 		}
 		container.addView(view);
@@ -78,15 +88,22 @@ public class ImagePageAdapter extends PagerAdapter {
 
 	protected void bindData(PageViewHolder mHolder, ImageBean mImageBean) {
 
-		if (mImageBean.isSelect()) {
-			mHolder.selectBtn
-					.setImageResource(ShowImageActivity.mSkinUtil.previewSelectRes);
+		if (isPreView) {
+			mHolder.mask.setVisibility(View.INVISIBLE);
+			mHolder.selectBtn.setVisibility(View.INVISIBLE);
 		} else {
-			mHolder.selectBtn
-					.setImageResource(ShowImageActivity.mSkinUtil.previewUnselectRes);
+			if (mImageBean.isSelect()) {
+				mHolder.selectBtn
+						.setImageResource(ShowImageActivity.mSkinUtil.previewSelectRes);
+			} else {
+				mHolder.selectBtn
+						.setImageResource(ShowImageActivity.mSkinUtil.previewUnselectRes);
+			}
+			mHolder.mask
+					.setBackgroundColor(ShowImageActivity.mSkinUtil.previewMaskColor);
+			mHolder.selectBtn.setOnClickListener(mClickListener);
 		}
-		mHolder.mask.setBackgroundColor(ShowImageActivity.mSkinUtil.previewMaskColor);
-		mHolder.selectBtn.setOnClickListener(mClickListener);
+
 		UniversalImageLoadTool.displayImage(
 				"file://" + mImageBean.getImagePath(), mHolder.image,
 				ShowImageActivity.mSkinUtil.gridItemDefaultRes);
@@ -95,7 +112,7 @@ public class ImagePageAdapter extends PagerAdapter {
 	public ImageBean getItem(int position) {
 		if (datas != null) {
 			return datas.get(position);
-		} 
+		}
 		return null;
 	}
 

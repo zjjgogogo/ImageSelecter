@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,6 +26,7 @@ public class PreviewActivity extends Activity {
 
 	public static final String KEY_PIC_INDEX = "KEY_PIC_INDEX";
 	public static final String KEY_FOLD_INDEX = "KEY_FOLD_INDEX";
+	public static final String KEY_IMAGE_PATH = "KEY_IMAGE_PATH";
 
 	private TextView show_count;
 
@@ -34,7 +34,9 @@ public class PreviewActivity extends Activity {
 
 	private ViewPager mViewPager;
 
-	private int currentIndex;
+	private int currentIndex = -1;
+
+	boolean isFromPreview = false;
 
 	ImagePageAdapter mAdapter;
 
@@ -45,9 +47,9 @@ public class PreviewActivity extends Activity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 
-		currentIndex = bundle.getInt(KEY_PIC_INDEX);
+		currentIndex = bundle.getInt(KEY_PIC_INDEX, currentIndex);
 
-		int folderCurrentIndex = bundle.getInt(KEY_FOLD_INDEX);
+		int folderCurrentIndex = bundle.getInt(KEY_FOLD_INDEX, -1);
 
 		setContentView(R.layout.activity_preview_image);
 
@@ -55,38 +57,71 @@ public class PreviewActivity extends Activity {
 		btn_finish = (Button) findViewById(R.id.header_finish);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
-		List<ImageBean> images;
-		Log.e(TAG, "folderCurrentIndex : " + folderCurrentIndex);
-		if (folderCurrentIndex != 0) {
+		List<ImageBean> images = null;
+		if (folderCurrentIndex > 0) {
 			ImageFolderBean mImageFolderBean = TempDataController
 					.getFolderDatas().get(folderCurrentIndex - 1);
 			images = TempDataController.getTotalDatas().get(
 					mImageFolderBean.getFolderName());
 			((TextView) findViewById(R.id.header_title))
 					.setText(mImageFolderBean.getFolderName());
-		} else {
+		} else if (folderCurrentIndex == 0) {
 			((TextView) findViewById(R.id.header_title))
 					.setText(R.string.all_images_str);
 			images = TempDataController.getAllImageDatas();
+		} else {
+			isFromPreview = true;
+			images = new ArrayList<ImageBean>(
+					TempDataController.getPreviewImageDatas());
+			TempDataController.getPreviewImageDatas().clear();
+			((TextView) findViewById(R.id.header_title))
+					.setText(R.string.preview_image_str);
+			btn_finish.setText(R.string.preview_delete_btn);
+
 		}
+
 		mAdapter = new ImagePageAdapter(this);
 		mAdapter.onSelectBtnClickListener(mSelectBtnClickListener);
+		mAdapter.setPreView(folderCurrentIndex == -1);
 		mAdapter.setPageDatas(images);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
 		mViewPager.setCurrentItem(currentIndex);
 
-		btn_finish.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				setResult(ShowImageActivity.RESULT_CODE_PREVIEW_FINISH);
-				finish();
-			}
-		});
-		
 		initViewSkin();
-		updateShowCount();
+		if (folderCurrentIndex != -1) {
+			updateShowCount();
+			btn_finish.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					setResult(ShowImageActivity.RESULT_CODE_PREVIEW_FINISH);
+					finish();
+				}
+			});
+		} else {
+			btn_finish.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					List<ImageBean> images = mAdapter.getDatas();
+
+					int position = mViewPager.getCurrentItem();
+					images.remove(position);
+					mAdapter = new ImagePageAdapter(PreviewActivity.this);
+					mAdapter.setPageDatas(images);
+					mAdapter.setPreView(true);
+					mViewPager.setAdapter(mAdapter);
+					mViewPager.setCurrentItem(position);
+					if (images.isEmpty()) {
+						onBackPressed();
+					}
+
+				}
+			});
+		}
+
 	}
 
 	OnClickListener mSelectBtnClickListener = new OnClickListener() {
@@ -101,20 +136,28 @@ public class PreviewActivity extends Activity {
 			}
 
 			ImageView mIcon = null;
+
 			if (v instanceof ImageView) {
+
 				mIcon = (ImageView) v;
+
 			}
 
 			if (mImageBean.isSelect()) {
+
 				if (mIcon != null) {
 					mIcon.setImageResource(ShowImageActivity.mSkinUtil.previewUnselectRes);
 				}
 				mImageBean.setSelect(false);
+
 				TempDataController.removeSelectImage(mImageBean);
+
 			} else {
+
 				if (TempDataController.getSelectImageDatas().size() < ShowImageActivity.imagesMaxSize) {
 
 					mImageBean.setSelect(true);
+
 					TempDataController.addSelectImage(mImageBean);
 
 					if (mIcon != null) {
@@ -122,8 +165,10 @@ public class PreviewActivity extends Activity {
 					}
 
 				} else {
+
 					showToastTip(getString(R.string.pic_select_num_error,
 							ShowImageActivity.imagesMaxSize));
+
 				}
 			}
 
@@ -152,11 +197,19 @@ public class PreviewActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent mIntent = new Intent();
-		mIntent.putExtra(ShowImageActivity.KEY_RETURN_SELECT, currentIndex);
-		setResult(ShowImageActivity.RESULT_CODE_PREVIEW_BACK, mIntent);
-		finish();
-//		super.onBackPressed();
+
+		if (!isFromPreview) {
+			Intent mIntent = new Intent();
+			mIntent.putExtra(ShowImageActivity.KEY_RETURN_SELECT, currentIndex);
+			setResult(ShowImageActivity.RESULT_CODE_PREVIEW_BACK, mIntent);
+			finish();
+		} else {
+			if (mAdapter != null) {
+				TempDataController.getPreviewImageDatas().addAll(
+						mAdapter.getDatas());
+			}
+			finish();
+		}
 	}
 
 	protected void initViewSkin() {
