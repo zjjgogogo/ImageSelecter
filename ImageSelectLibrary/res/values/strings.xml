@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">ImageScan</string>
+    <string name="library_name">ImageScan</string>
     <string name="headerbar_title">Picture</string>
     <string name="headerbar_finish">Finish</string>
     <string name="pic_select_num_error">Cannot select more than <xliff:g id="number">%d</xliff:g> pics.</string>

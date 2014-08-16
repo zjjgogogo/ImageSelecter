@@ -8,7 +8,7 @@
         android:id="@+id/child_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/library_name"
         android:scaleType="centerCrop" />
 
     <ImageButton
@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/library_name"
         android:paddingBottom="@dimen/delete_btn_padding"
         android:paddingLeft="@dimen/delete_btn_padding"
         android:paddingRight="@dimen/delete_btn_padding"

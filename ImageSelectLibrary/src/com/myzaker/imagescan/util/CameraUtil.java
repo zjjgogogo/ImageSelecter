@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
 import com.myzaker.imagescan.bean.ImageBean;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
 /**
  * 
@@ -35,34 +36,6 @@ public class CameraUtil {
 		super();
 	}
 
-	private File getAlbumDir(Context context) {
-		File storageDir = null;
-		if (Environment.MEDIA_MOUNTED.equals(Environment
-				.getExternalStorageState())) {
-			String path = Environment.getExternalStorageDirectory() + "/"
-					+ getAlbumName(context);
-			storageDir = new File(path);
-
-			if (storageDir != null) {
-				if (!storageDir.mkdirs()) {
-					if (!storageDir.exists()) {
-						Log.d("CameraTemp", "failed to create directory");
-						return null;
-					}
-				}
-			}
-
-		} else {
-			Log.v("storage", "External storage is not mounted READ/WRITE.");
-		}
-
-		return storageDir;
-	}
-
-	private String getAlbumName(Context context) {
-		return context.getString(R.string.app_name);
-	}
-
 	public void cameraInit(Activity activity) {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -75,7 +48,7 @@ public class CameraUtil {
 			String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", mLocale)
 					.format(new Date());
 
-			File albumF = getAlbumDir(activity);
+			File albumF = StorageUtils.getCacheDirectory(activity);
 
 			f = File.createTempFile(timeStamp, ".jpg", albumF);
 

@@ -46,7 +46,7 @@
             android:layout_alignBaseline="@+id/header_gallery"
             android:layout_alignBottom="@+id/header_gallery"
             android:layout_toRightOf="@id/header_gallery"
-            android:contentDescription="@string/app_name"
+            android:contentDescription="@string/library_name"
             android:src="@drawable/arrow" />
 
         <Button
@@ -127,7 +127,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/footer_padding"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/app_name"
+            android:contentDescription="@string/library_name"
             android:src="@drawable/selector_share_camera" />
 
         <TextView
