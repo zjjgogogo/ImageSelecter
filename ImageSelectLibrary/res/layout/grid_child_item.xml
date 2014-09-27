@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="110dp" >
 
-    <ImageView
+    <com.myzaker.imagescan.Imageload.LocalImageView
         android:id="@+id/child_image"
         android:layout_width="match_parent"
         android:layout_height="110dp" 

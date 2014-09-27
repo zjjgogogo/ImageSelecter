@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
-import com.myzaker.imagescan.Imageload.UniversalImageLoadTool;
+import com.myzaker.imagescan.Imageload.BitmapCache;
+import com.myzaker.imagescan.Imageload.LocalImageView;
 import com.myzaker.imagescan.bean.ImageFolderBean;
 
 /**
@@ -63,7 +63,7 @@ public class GroupListAdapter extends BaseAdapter {
 			viewHolder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.group_choice_item, parent,
 					false);
-			viewHolder.mImageView = (ImageView) convertView
+			viewHolder.mImageView = (LocalImageView) convertView
 					.findViewById(R.id.group_image);
 			viewHolder.mTextViewTitle = (TextView) convertView
 					.findViewById(R.id.group_title);
@@ -95,15 +95,16 @@ public class GroupListAdapter extends BaseAdapter {
 				R.string.pic_folder_num, mImageBean.getImageCounts()));
 		viewHolder.mImageView.setTag(path);
 
-		UniversalImageLoadTool.displayImage("file://" + path,
-				viewHolder.mImageView,
-				ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		viewHolder.mImageView
+				.setDefaultImageResId(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		viewHolder.mImageView.setImageUrl("file://" + path,
+				BitmapCache.getImageLoader());
 
 		return convertView;
 	}
 
 	public static class ViewHolder {
-		public ImageView mImageView;
+		public LocalImageView mImageView;
 		public TextView mTextViewTitle;
 		public TextView mTextViewCounts;
 		public View divider;

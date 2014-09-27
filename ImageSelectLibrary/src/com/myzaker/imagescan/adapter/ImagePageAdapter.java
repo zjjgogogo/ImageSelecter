@@ -13,7 +13,8 @@ import android.widget.ImageView;
 
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
-import com.myzaker.imagescan.Imageload.UniversalImageLoadTool;
+import com.myzaker.imagescan.Imageload.BitmapCache;
+import com.myzaker.imagescan.Imageload.LocalImageView;
 import com.myzaker.imagescan.bean.ImageBean;
 
 public class ImagePageAdapter extends PagerAdapter {
@@ -74,7 +75,8 @@ public class ImagePageAdapter extends PagerAdapter {
 		} else {
 			view = mInflater.inflate(R.layout.page_item, null);
 			mHolder = new PageViewHolder();
-			mHolder.image = (ImageView) view.findViewById(R.id.image_show_item);
+			mHolder.image = (LocalImageView) view
+					.findViewById(R.id.image_show_item);
 			mHolder.selectBtn = (ImageView) view
 					.findViewById(R.id.image_show_choose);
 			mHolder.mask = (View) view.findViewById(R.id.mask);
@@ -104,9 +106,10 @@ public class ImagePageAdapter extends PagerAdapter {
 			mHolder.selectBtn.setOnClickListener(mClickListener);
 		}
 
-		UniversalImageLoadTool.displayImage(
-				"file://" + mImageBean.getImagePath(), mHolder.image,
-				ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		mHolder.image
+				.setDefaultImageResId(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		mHolder.image.setImageUrl("file://" + mImageBean.getImagePath(),
+				BitmapCache.getImageLoader());
 	}
 
 	public ImageBean getItem(int position) {
@@ -127,7 +130,7 @@ public class ImagePageAdapter extends PagerAdapter {
 
 	class PageViewHolder {
 		View mask;
-		ImageView image;
+		LocalImageView image;
 		ImageView selectBtn;
 	}
 }

@@ -23,14 +23,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.myzaker.imagescan.Imageload.LocalImageLoadTask;
-import com.myzaker.imagescan.Imageload.LocalImageLoadTask.OnLocalImageLoadTaskListener;
-import com.myzaker.imagescan.Imageload.UniversalImageLoadTool;
 import com.myzaker.imagescan.adapter.GroupListAdapter;
 import com.myzaker.imagescan.adapter.ImageGridAdpater;
 import com.myzaker.imagescan.bean.ImageBean;
 import com.myzaker.imagescan.bean.ImageFolderBean;
 import com.myzaker.imagescan.bean.TempDataController;
+import com.myzaker.imagescan.task.LocalImageLoadTask;
+import com.myzaker.imagescan.task.LocalImageLoadTask.OnLocalImageLoadTaskListener;
 import com.myzaker.imagescan.util.CameraUtil;
 import com.myzaker.imagescan.util.SkinUtil;
 import com.nineoldandroids.animation.Animator;
@@ -101,8 +100,7 @@ public class ShowImageActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+		super.onCreate(savedInstanceState); 
 		if (savedInstanceState != null) {
 			isRestore = savedInstanceState.getBoolean(KEY_RESTORE_FLAG);
 		}
@@ -221,7 +219,6 @@ public class ShowImageActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		UniversalImageLoadTool.checkImageLoaderConfiguration(this);
 	}
 
 	protected void initFolderList() {
@@ -245,6 +242,10 @@ public class ShowImageActivity extends Activity {
 
 		ArrayList<ImageBean> mAllImageBeans = TempDataController
 				.getAllImageDatas();
+
+		if (mAllImageBeans.size() < 1) {
+			return;
+		}
 
 		ImageFolderBean mImageFolderBean = new ImageFolderBean();
 		mImageFolderBean.setFolderName(defaultFolderName);
@@ -296,7 +297,7 @@ public class ShowImageActivity extends Activity {
 			mGroupListAdapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	protected void showFolderList() {
 
 		if (mFolderList != null && mFolderList.getVisibility() == View.VISIBLE) {

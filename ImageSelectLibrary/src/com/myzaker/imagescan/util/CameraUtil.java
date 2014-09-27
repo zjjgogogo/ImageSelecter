@@ -11,16 +11,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
 import com.myzaker.imagescan.bean.ImageBean;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
 /**
  * 
@@ -48,7 +45,7 @@ public class CameraUtil {
 			String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", mLocale)
 					.format(new Date());
 
-			File albumF = StorageUtils.getCacheDirectory(activity);
+			File albumF = new File("/mnt/sdcard/demo");// StorageUtils.getCacheDirectory(activity);
 
 			f = File.createTempFile(timeStamp, ".jpg", albumF);
 

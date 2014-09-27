@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <ImageView
+    <com.myzaker.imagescan.Imageload.LocalImageView
         android:id="@+id/group_image"
         android:layout_width="100dip"
         android:layout_height="100dip"
