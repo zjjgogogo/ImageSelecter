@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore.Images;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,8 +17,6 @@ import com.myzaker.imagescan.ShowImageActivity;
 import com.myzaker.imagescan.bean.ImageBean;
 import com.myzaker.imagescan.bean.TempDataController;
 import com.myzaker.imagescan.util.SkinUtil;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 
 public class TestActivity extends Activity {
 
@@ -38,34 +36,6 @@ public class TestActivity extends Activity {
 	boolean isMoving = false;
 
 	int deletePosition = 0;
-
-	AnimatorListener mAnimatorListener = new AnimatorListener() {
-
-		@Override
-		public void onAnimationStart(Animator arg0) {
-			isMoving = true;
-		}
-
-		@Override
-		public void onAnimationRepeat(Animator arg0) {
-
-		}
-
-		@Override
-		public void onAnimationEnd(Animator arg0) {
-			isMoving = false;
-			if (deletePosition != -1) {
-				mImageBeans.remove(deletePosition);
-				mPicsShowView.setAdapter(mImageGridAdpater);
-				// mPicsShowView.removeView(deletePosition);
-			}
-			deletePosition = -1;
-		}
-
-		@Override
-		public void onAnimationCancel(Animator arg0) {
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +115,7 @@ public class TestActivity extends Activity {
 		mPicsShowView.setAddClickListener(mAddClickListener);
 		mPicsShowView.setDeleteClickListener(mRemoveListener);
 		mPicsShowView.setItemClickListener(mItemClickListener);
-		mPicsShowView.setAnimatorListener(mAnimatorListener);
+		// mPicsShowView.setAnimatorListener(mAnimatorListener);
 	}
 
 	OnClickListener mAddClickListener = new OnClickListener() {
@@ -189,19 +159,13 @@ public class TestActivity extends Activity {
 		public void onClick(View v) {
 			if (!isMoving) {
 				deletePosition = (Integer) v.getTag();
-				mPicsShowView.removeItem(deletePosition);
+				mImageBeans.remove(deletePosition);
+				mPicsShowView.removeView(deletePosition);
+				Log.e("TAG", "deletePosition : " + deletePosition);
+				deletePosition = -1;
 			}
 		}
 	};
-
-	// protected void cleanData() {
-	//
-	// if (mImageGridAdpater != null) {
-	// mImageBeans.clear();
-	// mImageGridAdpater.notifyDataSetChanged();
-	// }
-	//
-	// }
 
 	protected void cleanData() {
 
@@ -223,16 +187,6 @@ public class TestActivity extends Activity {
 		}
 
 	}
-
-	// protected void updateData() {
-	// mImageBeans.addAll(TempDataController.getSelectImageDatas());
-	// if (mImageGridAdpater == null) {
-	// mImageGridAdpater = new SelectImageGridAdpater(this, mImageBeans);
-	// mGridView.setAdapter(mImageGridAdpater);
-	// } else {
-	// mImageGridAdpater.notifyDataSetChanged();
-	// }
-	// }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

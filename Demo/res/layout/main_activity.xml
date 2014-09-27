@@ -42,14 +42,13 @@
         android:verticalSpacing="@dimen/grid_padding"
         android:visibility="gone" >
     </GridView>
-	
-    
+
     <com.test.imagedemo.PicsShowView
         android:id="@+id/list"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:scrollbars="none" />
 
 </LinearLayout>
