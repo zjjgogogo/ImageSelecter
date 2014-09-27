@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myzaker.imagescan.R;
@@ -69,6 +70,8 @@ public class GroupListAdapter extends BaseAdapter {
 					.findViewById(R.id.group_title);
 			viewHolder.mTextViewCounts = (TextView) convertView
 					.findViewById(R.id.group_count);
+			viewHolder.mDefaultImage = (ImageView) convertView
+					.findViewById(R.id.default_image);
 			viewHolder.divider = convertView.findViewById(R.id.divider);
 			convertView.setTag(viewHolder);
 		} else {
@@ -94,9 +97,8 @@ public class GroupListAdapter extends BaseAdapter {
 		viewHolder.mTextViewCounts.setText(context.getString(
 				R.string.pic_folder_num, mImageBean.getImageCounts()));
 		viewHolder.mImageView.setTag(path);
-
-		viewHolder.mImageView
-				.setDefaultImageResId(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		viewHolder.mDefaultImage
+				.setImageResource(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
 		viewHolder.mImageView.setImageUrl("file://" + path,
 				BitmapCache.getImageLoader());
 
@@ -106,6 +108,7 @@ public class GroupListAdapter extends BaseAdapter {
 	public static class ViewHolder {
 		public LocalImageView mImageView;
 		public TextView mTextViewTitle;
+		public ImageView mDefaultImage;
 		public TextView mTextViewCounts;
 		public View divider;
 

@@ -28,11 +28,7 @@ public class ImageBean {
 		this.imgId = imgId;
 	}
 
-	public String getImagePath() {
-
-		if (!TextUtils.isEmpty(getThumbnailPath())) {
-			return getThumbnailPath();
-		}
+	public String getImagePath() { 
 		return imagePath;
 	}
 
@@ -41,7 +37,11 @@ public class ImageBean {
 	}
 
 	public String getThumbnailPath() {
-		return thumbnailPath;
+		if(!TextUtils.isEmpty(thumbnailPath))
+		{
+			return thumbnailPath;
+		}
+		return getImagePath();
 	}
 
 	public void setThumbnailPath(String thumbailPath) {

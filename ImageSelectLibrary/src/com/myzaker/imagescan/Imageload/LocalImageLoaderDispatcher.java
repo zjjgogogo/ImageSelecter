@@ -3,6 +3,7 @@ package com.myzaker.imagescan.Imageload;
 import java.util.concurrent.BlockingQueue;
 
 import android.os.Process;
+import android.util.Log;
 
 public class LocalImageLoaderDispatcher extends Thread {
 
@@ -29,6 +30,7 @@ public class LocalImageLoaderDispatcher extends Thread {
 		Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 		LocalImageRequest request;
 		while (true) {
+
 			try {
 				// Take a request from the queue.
 				request = mQueue.take();

@@ -75,6 +75,8 @@ public class ImagePageAdapter extends PagerAdapter {
 		} else {
 			view = mInflater.inflate(R.layout.page_item, null);
 			mHolder = new PageViewHolder();
+			mHolder.mDefaultImageView = (ImageView) view
+					.findViewById(R.id.default_image);
 			mHolder.image = (LocalImageView) view
 					.findViewById(R.id.image_show_item);
 			mHolder.selectBtn = (ImageView) view
@@ -105,9 +107,8 @@ public class ImagePageAdapter extends PagerAdapter {
 					.setBackgroundColor(ShowImageActivity.mSkinUtil.previewMaskColor);
 			mHolder.selectBtn.setOnClickListener(mClickListener);
 		}
-
-		mHolder.image
-				.setDefaultImageResId(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
+		mHolder.mDefaultImageView
+				.setImageResource(ShowImageActivity.mSkinUtil.gridItemDefaultRes);
 		mHolder.image.setImageUrl("file://" + mImageBean.getImagePath(),
 				BitmapCache.getImageLoader());
 	}
@@ -130,6 +131,7 @@ public class ImagePageAdapter extends PagerAdapter {
 
 	class PageViewHolder {
 		View mask;
+		ImageView mDefaultImageView;
 		LocalImageView image;
 		ImageView selectBtn;
 	}

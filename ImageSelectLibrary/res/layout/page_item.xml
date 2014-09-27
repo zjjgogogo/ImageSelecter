@@ -3,12 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ImageView
+        android:id="@+id/default_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/library_name"
+        android:scaleType="centerInside"
+        android:src="@drawable/default_board_img" />
+
     <com.myzaker.imagescan.Imageload.LocalImageView
         android:id="@+id/image_show_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/library_name"
         android:scaleType="fitCenter" />
 
     <View
@@ -25,7 +34,7 @@
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="60dp"
         android:contentDescription="@string/library_name" />
 
 </RelativeLayout>

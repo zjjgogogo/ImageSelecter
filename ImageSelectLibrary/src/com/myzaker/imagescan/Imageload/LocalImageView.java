@@ -37,7 +37,7 @@ public class LocalImageView extends ImageView {
 	/**
 	 * Resource ID of the image to be used if the network response fails.
 	 */
-	private int mErrorImageId = R.drawable.ic_launcher;
+	private int mErrorImageId;
 
 	/** Local copy of the ImageLoader. */
 	private LocalImageLoader mImageLoader;

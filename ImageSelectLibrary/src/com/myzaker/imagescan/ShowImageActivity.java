@@ -431,6 +431,8 @@ public class ShowImageActivity extends Activity {
 		mImageLoadTask.execute();
 
 	}
+	
+	
 
 	OnClickListener mPreViewOnClickListener = new OnClickListener() {
 
