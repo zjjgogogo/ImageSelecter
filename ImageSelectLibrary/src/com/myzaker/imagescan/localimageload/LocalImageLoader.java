@@ -1,4 +1,4 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.myzaker.imagescan.Imageload.LocalImageResponse.ErrorListener;
-import com.myzaker.imagescan.Imageload.LocalImageResponse.Listener;
+import com.myzaker.imagescan.localimageload.LocalImageResponse.ErrorListener;
+import com.myzaker.imagescan.localimageload.LocalImageResponse.Listener;
 
 public class LocalImageLoader {
 

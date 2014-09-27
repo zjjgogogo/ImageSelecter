@@ -13,7 +13,7 @@
         android:contentDescription="@string/library_name"
         android:src="@drawable/default_board_img" />
 
-    <com.myzaker.imagescan.Imageload.LocalImageView
+    <com.myzaker.imagescan.localimageload.LocalImageView
         android:id="@+id/child_image"
         android:layout_width="match_parent"
         android:layout_height="110dp"

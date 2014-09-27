@@ -1,4 +1,4 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
 public class ImageError extends Exception {
  

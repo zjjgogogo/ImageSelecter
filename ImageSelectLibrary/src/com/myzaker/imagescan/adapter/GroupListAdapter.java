@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.myzaker.imagescan.R;
 import com.myzaker.imagescan.ShowImageActivity;
-import com.myzaker.imagescan.Imageload.BitmapCache;
-import com.myzaker.imagescan.Imageload.LocalImageView;
 import com.myzaker.imagescan.bean.ImageFolderBean;
+import com.myzaker.imagescan.localimageload.BitmapCache;
+import com.myzaker.imagescan.localimageload.LocalImageView;
 
 /**
  * 

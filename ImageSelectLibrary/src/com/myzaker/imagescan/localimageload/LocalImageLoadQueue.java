@@ -1,4 +1,4 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;

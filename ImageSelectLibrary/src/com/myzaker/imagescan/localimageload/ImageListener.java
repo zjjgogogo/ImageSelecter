@@ -1,6 +1,6 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
-import com.myzaker.imagescan.Imageload.LocalImageLoader.LocalImageContainer;
+import com.myzaker.imagescan.localimageload.LocalImageLoader.LocalImageContainer;
 
 public interface ImageListener {
 

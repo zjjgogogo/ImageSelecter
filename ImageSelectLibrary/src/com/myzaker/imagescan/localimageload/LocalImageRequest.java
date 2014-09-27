@@ -1,10 +1,10 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
 import android.graphics.Bitmap;
 import android.renderscript.RenderScript.Priority;
 
-import com.myzaker.imagescan.Imageload.LocalImageResponse.ErrorListener;
-import com.myzaker.imagescan.Imageload.LocalImageResponse.Listener;
+import com.myzaker.imagescan.localimageload.LocalImageResponse.ErrorListener;
+import com.myzaker.imagescan.localimageload.LocalImageResponse.Listener;
 
 public class LocalImageRequest implements Comparable<LocalImageRequest> {
 

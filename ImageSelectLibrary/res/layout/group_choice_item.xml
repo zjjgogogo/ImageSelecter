@@ -12,7 +12,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/default_board_img" />
 
-    <com.myzaker.imagescan.Imageload.LocalImageView
+    <com.myzaker.imagescan.localimageload.LocalImageView
         android:id="@+id/group_image"
         android:layout_width="100dip"
         android:layout_height="100dip"

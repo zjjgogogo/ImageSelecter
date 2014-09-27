@@ -1,4 +1,4 @@
-package com.myzaker.imagescan.Imageload;
+package com.myzaker.imagescan.localimageload;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
 import com.myzaker.imagescan.R;
-import com.myzaker.imagescan.Imageload.LocalImageLoader.LocalImageContainer;
+import com.myzaker.imagescan.localimageload.LocalImageLoader.LocalImageContainer;
 
 public class LocalImageView extends ImageView {
 
