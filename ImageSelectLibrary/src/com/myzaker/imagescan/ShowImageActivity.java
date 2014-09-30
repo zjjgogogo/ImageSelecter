@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewPropertyAnimator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -32,10 +35,6 @@ import com.myzaker.imagescan.task.LocalImageLoadTask;
 import com.myzaker.imagescan.task.LocalImageLoadTask.OnLocalImageLoadTaskListener;
 import com.myzaker.imagescan.util.CameraUtil;
 import com.myzaker.imagescan.util.SkinUtil;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * 
@@ -100,7 +99,7 @@ public class ShowImageActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState); 
+		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
 			isRestore = savedInstanceState.getBoolean(KEY_RESTORE_FLAG);
 		}
@@ -307,18 +306,15 @@ public class ShowImageActivity extends Activity {
 
 		mFolderListLayout.setVisibility(View.VISIBLE);
 		mFolderList.setVisibility(View.VISIBLE);
-		ViewHelper.setTranslationY(mFolderList, -mFolderList.getHeight());
-		ViewHelper.setAlpha(mFolderListLayout, 0);
-		ViewPropertyAnimator.animate(mFolderList).translationY(0)
-				.setListener(null);
-		ViewPropertyAnimator.animate(mFolderListLayout).alpha(1)
-				.setListener(null);
+		mFolderList.setTranslationY(-mFolderList.getHeight());
+		mFolderListLayout.setAlpha(0);
+		mFolderList.animate().translationY(0).setListener(null);
+		mFolderListLayout.animate().alpha(1).setListener(null);
 	}
 
 	protected void closeFolderList() {
 
-		ViewPropertyAnimator.animate(mFolderList)
-				.translationY(-mFolderList.getHeight())
+		mFolderList.animate().translationY(-mFolderList.getHeight())
 				.setListener(new AnimatorListener() {
 
 					@Override
@@ -345,7 +341,7 @@ public class ShowImageActivity extends Activity {
 
 					}
 				});
-		ViewPropertyAnimator.animate(mFolderListLayout).alpha(0)
+		mFolderListLayout.animate().alpha(0)
 				.setListener(new AnimatorListener() {
 
 					@Override
@@ -431,8 +427,6 @@ public class ShowImageActivity extends Activity {
 		mImageLoadTask.execute();
 
 	}
-	
-	
 
 	OnClickListener mPreViewOnClickListener = new OnClickListener() {
 
